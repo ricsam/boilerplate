@@ -1,0 +1,27 @@
+{
+  "name": "utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "checkStore.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "reactapp": "*"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/packages/testing/test-bundler.js",
+    "setupFiles": ["<rootDir>/packages/testing/shim.js", "<rootDir>/packages/testing/enzyme-setup.js"],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(community-scoring-graphs|components|containers|utils|testing))"
+    ],
+    "rootDir": "../../",
+    "testMatch": ["<rootDir>/packages/components/**/*.test.js"]
+  }
+}
