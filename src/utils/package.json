@@ -12,9 +12,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "reactapp": "*"
-  },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/packages/testing/test-bundler.js",
     "setupFiles": ["<rootDir>/packages/testing/shim.js", "<rootDir>/packages/testing/enzyme-setup.js"],

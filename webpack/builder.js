@@ -10,7 +10,7 @@ const {
   memReadFile$,
   getDistFolder,
   fsWriteFile$,
-} = require('../../serverUtils');
+} = require('./utils');
 
 
 const webpackConfig = getWebpackConfig(baseWebpackConfig);

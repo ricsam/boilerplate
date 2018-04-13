@@ -1,6 +1,5 @@
-
 // Needed for redux-saga es6 generator support
-import 'babel-polyfill';
+// import 'babel-polyfill';
 
 // Import all the third party stuff
 import React from 'react';
@@ -12,9 +11,7 @@ import createHistory from 'history/createBrowserHistory';
 // Import root app
 import App from 'containers/App';
 
-
 import configureStore from './configureStore';
-
 
 // Create redux store with history
 // eslint-disable-next-line
@@ -22,20 +19,9 @@ const initialState = {};
 const history = createHistory();
 const store = configureStore(initialState, history);
 
+const MOUNT_NODE = document.getElementById('REACT_MOUNT');
 
-const MAX_ATTEMPTS = 10;
-let attemps = 0;
 const render = () => {
-  const MOUNT_NODE = document.getElementById('__REACT_MOUNT__');
-  if (!MOUNT_NODE) {
-    attemps += 1;
-    if (attemps < MAX_ATTEMPTS) {
-      setTimeout(render, 250);
-    }
-    return;
-  }
-
-
   ReactDOM.render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -60,4 +46,3 @@ if (module.hot) {
 }
 
 render();
-

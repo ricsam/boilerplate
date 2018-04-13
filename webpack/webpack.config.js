@@ -3,21 +3,19 @@ const webpack = require('webpack');
 
 const es6Modules = require('config/es6Modules');
 
-const includes = es6Modules.map(
-  (module) => new RegExp(`${module}(?!.*node_modules)`)
-);
+const includes = es6Modules.map((module) => new RegExp(`${module}(?!.*node_modules)`));
 
 module.exports = {
   entry: [
-    path.join(__dirname, '../app/app.js'), // Start with js/app.js
+    path.join(__dirname, '../app/index.js'), // Start with js/app.js
   ],
 
   // Don't use hashes in dev mode for better performance
   output: {
-    filename: 'main.js',
-    chunkFilename: 'reactapp.[chunkhash].js',
-    publicPath: '/reactapp/',
-    path: '/', /* memory fs path */
+    filename: 'bundle.[name].[hash].js',
+    chunkFilename: 'chunk.[name].[chunkhash].js',
+    publicPath: '/',
+    path: '/' /* memory fs path */,
   },
   module: {
     rules: [
@@ -39,24 +37,34 @@ module.exports = {
             plugins: ['styled-components'],
             presets: [
               [
-                'env',
+                '@babel/preset-env',
                 {
                   modules: false,
                 },
               ],
-              'react',
-              'stage-0',
+              '@babel/preset-react',
+              '@babel/preset-stage-0',
             ],
             env: {
               production: {
                 only: ['app', ...es6Modules],
                 plugins: [
-                  'transform-react-remove-prop-types',
-                  'transform-react-constant-elements',
-                  'transform-react-inline-elements',
+                  'babel-plugin-transform-react-remove-prop-types',
+                  '@babel/plugin-transform-react-constant-elements',
+                  '@babel/plugin-transform-react-inline-elements',
                 ],
               },
               test: {
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      modules: false,
+                    },
+                  ],
+                  '@babel/preset-react',
+                  '@babel/preset-stage-0',
+                ],
                 plugins: [
                   'transform-es2015-modules-commonjs',
                   'dynamic-import-node',
@@ -120,10 +128,6 @@ module.exports = {
         use: 'html-loader',
       },
       {
-        test: /\.json$/,
-        use: 'json-loader',
-      },
-      {
         test: /\.(mp4|webm)$/,
         use: {
           loader: 'url-loader',
@@ -139,19 +143,9 @@ module.exports = {
       // make fetch available
       fetch: 'exports-loader?self.fetch!whatwg-fetch',
     }),
-
-    // Always expose NODE_ENV to webpack, in order to use `process.env.NODE_ENV`
-    // inside your code for any environment checks; UglifyJS will automatically
-    // drop any unreachable code.
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
-    }),
   ],
   resolve: {
     modules: ['node_modules'],
-    extensions: ['.js', '.jsx', '.react.js'],
     mainFields: ['browser', 'jsnext:main', 'main'],
   },
   target: 'web', // Make web variables accessible to webpack, e.g. window
