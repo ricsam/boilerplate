@@ -11,7 +11,13 @@ import createHistory from 'history/createBrowserHistory';
 // Import root app
 import App from 'containers/App';
 
+import 'normalize.css';
+import * as firebase from 'firebase';
+
 import configureStore from './configureStore';
+import config from './config.json';
+
+firebase.initializeApp(config);
 
 // Create redux store with history
 // eslint-disable-next-line
